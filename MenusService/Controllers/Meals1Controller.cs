@@ -39,9 +39,10 @@ namespace MenusService.Controllers
         // GET: Meals1/Create
         public ActionResult Create()
         {
-            ViewBag.resId = new SelectList(db.Resturants, "id", "name");
-            Meal player = new Meal();
-            return View(player);
+            Meal meal = new Meal();
+            ViewBag.resturantId = new SelectList(db.Resturants, "id", "name", meal.resturantId);
+
+            return View(meal);
         }
 
         // POST: Meals1/Create
@@ -50,20 +51,26 @@ namespace MenusService.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "id,resturantId,price,name,description," +
-            "startDate,endDate,imgPath,imageUpload")] Meal meal)
+            "startDate, endDate, imgPath, imageUpload")] Meal meal)
         {
-            ViewBag.resId = new SelectList(db.Resturants, "id", "name", meal.resturantId);
-
+            ViewBag.resturantId = new SelectList(db.Resturants, "id", "name", meal.resturantId);
+            var srcPath = @"C:\Users\sibongisenib\documents\qrp\MenusService\MenusService\Content\imgs\";
+            var destPath = @"C:\Users\sibongisenib\documents\qrp\test\www\images";
             if (ModelState.IsValid)
             {
+                string fName = "";
                 if (meal.imageUpload != null)
                 {
+                    string imageFolderName = @"~/Content/imgs/";
+
                     string fileName = Path.GetFileNameWithoutExtension(meal.imageUpload.FileName);
-                    string extention = Path.GetExtension(meal.imageUpload.FileName);
-                    fileName = meal.name + extention;
-                    meal.imgPath = "~/Content/imgs/" + fileName;
-                    meal.imageUpload.SaveAs(Path.Combine(Server.MapPath("~/Content/imgs/"), fileName));
+                    fileName = Helper.removeAllSpaces(fileName) + ".jpeg";
+                    fName = fileName;
+                    meal.imgPath = imageFolderName + fileName;
+                    meal.imageUpload.SaveAs(Path.Combine(Server.MapPath(imageFolderName), fileName));
                 }
+
+                Helper.CopyToAppimages(srcPath, fName,destPath);
 
                 db.Meals.Add(meal);
                 db.SaveChanges();
@@ -72,6 +79,8 @@ namespace MenusService.Controllers
 
             return View(meal);
         }
+
+       
 
         // GET: Meals1/Edit/5
         public ActionResult Edit(int? id)
@@ -93,7 +102,7 @@ namespace MenusService.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,resId,price,name,description,startDate,endDate,imgPath")] Meal meal)
+        public ActionResult Edit([Bind(Include = "id,resturantId,price,name,description,startDate,endDate,imgPath")] Meal meal)
         {
             if (ModelState.IsValid)
             {

@@ -24,19 +24,19 @@ namespace MenusService.Models
             }
         }
 
-        private void generateMeals(int resId,double price,string name,string desc,DateTime startDate, DateTime endDate,string connetionString)
+        private void generateMeals(int resturantId,double price,string name,string desc,DateTime startDate, DateTime endDate,string connetionString)
         {
             string sql = null;
             var guid = Guid.NewGuid().ToString().Split('-').First();
             
             using (SqlConnection cnn = new SqlConnection(connetionString))
             {
-                sql = "insert into dbo.Meals ([resId],[price],[name],[description],[startDate],[endDate])" +
-                    " values(@resId,@price,@name,@description,@startDate,@endDate)";
+                sql = "insert into dbo.Meals ([resturantId],[price],[name],[description],[startDate],[endDate])" +
+                    " values(@resturantId,@price,@name,@description,@startDate,@endDate)";
                 cnn.Open();
                 using (SqlCommand cmd = new SqlCommand(sql, cnn))
                 {
-                    cmd.Parameters.AddWithValue("@resId", resId);
+                    cmd.Parameters.AddWithValue("@resturantId", resturantId);
                     cmd.Parameters.AddWithValue("@price", price);
                     cmd.Parameters.AddWithValue("@name", name);
                     cmd.Parameters.AddWithValue("@description", desc);
@@ -51,7 +51,7 @@ namespace MenusService.Models
         public List<Resturant> Resturants { get; set; }
         private List<Meal> getMeals(string connetionString)
         {
-            string queryString = "SELECT id,resId, name, price, description,startdate,endDate FROM dbo.Meals;";
+            string queryString = "SELECT id,resturantId, name, price, description,startdate,endDate FROM dbo.Meals;";
             List<Meal> meals = new List<Meal>();
             using (var connection = new SqlConnection(connetionString))
             {

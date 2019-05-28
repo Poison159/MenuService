@@ -14,27 +14,35 @@ namespace MenusService.Models
             imgPath = "~/Content/user.png";
         }
         public int id { get; set; }
+
         public int resturantId { get; set; }
+
         [Required]
         [DataType(DataType.Currency)]
         public double price { get; set; }
+
         [Required]
         public string name { get; set; }
+
         [Required]
         public string description { get; set; }
+
         [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Start Date")]
         public DateTime startDate { get; set; }
+
         [Required]
         [DataType(DataType.Date)]
         [Display(Name = "End Date")]
         [DisplayFormat(DataFormatString = "{0:yyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime endDate { get; set; }
+
         [Required]
         [Display(Name = "meal Image")]
         public string imgPath { get; set; }
+
         [NotMapped]
         public HttpPostedFileBase imageUpload { get; set; }
     }

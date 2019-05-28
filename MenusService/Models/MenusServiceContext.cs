@@ -15,7 +15,7 @@ namespace MenusService.Models
         // For more information refer to the documentation:
         // http://msdn.microsoft.com/en-us/data/jj591621.aspx
     
-        public MenusServiceContext() : base("Data Source=PRACSERVER\\SQLEXPRESS;Initial Catalog=QRMenu;Integrated Security=True")
+        public MenusServiceContext() : base("Data Source=SIBONGISENIB17L\\SQLEXPRESS;Initial Catalog=Menu;Integrated Security=True")
         {
         }
 

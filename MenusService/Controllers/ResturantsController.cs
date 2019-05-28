@@ -53,15 +53,20 @@ namespace MenusService.Controllers
         {
             if (ModelState.IsValid)
             {
-
+                String fName = "";
+                var srcPath = @"C:\Users\sibongisenib\documents\qrp\MenusService\MenusService\Content\imgs\";
+                var destPath = @"C:\Users\sibongisenib\documents\qrp\test\www\images";
                 if (resturant.imageUpload != null)
                 {
                     string fileName = Path.GetFileNameWithoutExtension(resturant.imageUpload.FileName);
                     string extention = Path.GetExtension(resturant.imageUpload.FileName);
                     fileName = resturant.name + DateTime.Now.ToString("yymmssfff") + extention;
+                    fName = fileName;
                     resturant.imgPath = "~/Content/imgs/" + fileName;
                     resturant.imageUpload.SaveAs(Path.Combine(Server.MapPath("~/Content/imgs/"), fileName));
                 }
+
+                Helper.CopyToAppimages(srcPath, fName, destPath);
 
                 db.Resturants.Add(resturant);
                 db.SaveChanges();
